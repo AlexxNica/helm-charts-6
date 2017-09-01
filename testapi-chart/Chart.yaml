@@ -1,0 +1,4 @@
+apiVersion: v1
+description: A simple api for testing and debugging
+name: testapi-chart
+version: 0.2.0
