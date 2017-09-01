@@ -21,4 +21,5 @@ pipeline:
     bucket: helm.carldanley.com
     region: us-east-1
     source: /helm-charts/build/charts/**/*
+    strip_prefix: /helm-charts/build/charts
     secrets: [ AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY ]
