@@ -19,10 +19,7 @@ pipeline:
   upload-charts-to-s3:
     image: plugins/s3
     bucket: helm.carldanley.com
+    region: us-east-1
     source: /helm-charts/build/charts/**/*
     target: /
-    secrets:
-    - source: AWS_ACCESS_KEY
-      target: access_key
-    - source: AWS_SECRET_KEY
-      target: secret_key
+    secrets: [ AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY ]
