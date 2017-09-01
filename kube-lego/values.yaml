@@ -12,9 +12,6 @@ resources:
   requests:
     cpu: 20m
     memory: 8Mi
-rbac:
-  create: false
-  serviceAccountName: default
 config:
   # Link to environment variables used by kube-lego:
   # https://github.com/jetstack/kube-lego#environment-variables
