@@ -15,3 +15,14 @@ pipeline:
     - helm version -c
     - apk add --update curl
     - sh /helm-charts/build/build-packages.sh
+
+  upload-charts-to-s3:
+    image: plugins/s3
+    bucket: helm.carldanley.com
+    source: /helm-charts/build/charts/**/*
+    target: /
+    secrets:
+    - source: AWS_ACCESS_KEY
+      target: access_key
+    - source: AWS_SECRET_KEY
+      target: secret_key
