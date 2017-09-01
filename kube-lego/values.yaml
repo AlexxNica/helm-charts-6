@@ -18,3 +18,6 @@ config:
   LEGO_URL: https://acme-v01.api.letsencrypt.org/directory
   LEGO_PORT: 8080
   LEGO_EMAIL: email@domain.com
+  LEGO_CHECK_INTERVAL: 8h
+  LEGO_MINIMUM_VALIDITY: 720h # 30 days
+
