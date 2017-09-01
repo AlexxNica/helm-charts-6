@@ -1,0 +1,17 @@
+workspace:
+  base: /helm-charts
+  path: build
+
+pipeline:
+  lint-helm-charts:
+    image: lachlanevenson/k8s-helm:latest
+    commands:
+    - helm version -c
+    - helm lint --strict ./*
+
+  build-packages:
+    image: lachlanevenson/k8s-helm:latest
+    commands:
+    - helm version -c
+    - apk add --update curl
+    - sh /helm-charts/build/build-packages.sh
