@@ -41,12 +41,6 @@ spec:
           value: "{{ .Values.httpSecret }}"
         ports:
         - containerPort: 5000
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: 8080
-          initialDelaySeconds: 30
-          timeoutSeconds: 5
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         volumeMounts:
