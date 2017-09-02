@@ -15,7 +15,7 @@ This repository is pushed to [http://helm.carldanley](http://helm.carldanley.com
 1. grafana
 1. kibana
 1. ~~kube-lego~~
-1. nginx-ingress
+1. ~~nginx-ingress~~
 1. node-exporter
 1. prometheus
 1. rabbitmq
