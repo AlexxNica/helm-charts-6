@@ -114,11 +114,6 @@ spec:
           resources:
 {{ toYaml .Values.statsExporter.resources | indent 12 }}
       {{- end }}
-      hostNetwork: {{ .Values.controller.hostNetwork }}
-    {{- if .Values.controller.nodeSelector }}
-      nodeSelector:
-{{ toYaml .Values.controller.nodeSelector | indent 8 }}
-    {{- end }}
       serviceAccountName: {{ template "fullname" . }}
       terminationGracePeriodSeconds: 60
 {{- end }}
