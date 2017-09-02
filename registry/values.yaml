@@ -1,26 +1,40 @@
-image:
-  repository: registry
-  tag: 2.6.2
-  pullPolicy: IfNotPresent
-replicaCount: 1
-httpSecret: rNGsbmVym4MsfcQqNFhNPZ5fZCgs
-ingress:
-  domainName: "registry.domain.com"
-htpasswd:
-  enabled: true
-  realm: Registry Realm
-  credentials: {}
-resources: {}
-  # limits:
-  #   cpu: 100m
-  #   memory: 200Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 200Mi
-storage:
-  containerPath: /var/lib/registry
-  hostStorage:
-    enabled: true
-    path: /shared/registry
-  delete:
-    enabled: true
+registry:
+  image:
+    repository: registry
+    tag: 2.6.2
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  httpSecret: ""
+  ingress:
+    domainName: ""
+  htpasswd:
+    realm: Registry Realm
+    credentials: {}
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 200Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 200Mi
+  storage:
+    containerPath: /var/lib/registry
+    hostStorage:
+      enabled: true
+      path: /shared/registry
+    delete:
+      enabled: true
+backup:
+  enabled: false
+  image:
+    repository: frekele/helicopterizer
+    tag: v0.3.0
+    pullPolicy: IfNotPresent
+  config:
+    STORAGE_PROVIDER: AWS
+    AWS_ACCESS_KEY_ID: ""
+    AWS_SECRET_ACCESS_KEY: ""
+    AWS_S3_BUCKET_NAME: ""
+    AWS_S3_PATH: "registry"
+    AWS_DEFAULT_REGION: "us-east-1"
+    CRON_SCHEDULE: "0 0 * * *"

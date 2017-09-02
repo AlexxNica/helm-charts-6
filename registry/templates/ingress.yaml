@@ -14,10 +14,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - {{ .Values.ingress.domainName }}
+    - {{ .Values.registry.ingress.domainName }}
     secretName: {{ template "fullname" . }}-tls-certs
   rules:
-  - host: {{ .Values.ingress.domainName }}
+  - host: {{ .Values.registry.ingress.domainName }}
     http:
       paths:
       - path: /
