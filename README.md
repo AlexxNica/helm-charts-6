@@ -8,18 +8,35 @@ This repository is pushed to [http://helm.carldanley.com](http://helm.carldanley
 
 ## Charts
 
-1. ~~default-backend~~
-1. drone
-1. elasticsearch
-1. fluentd
-1. grafana
-1. kibana
-1. ~~kube-lego~~
+### Load Balancing
+
 1. ~~nginx-ingress~~
-1. node-exporter
-1. prometheus
-1. rabbitmq
+1. ~~kube-lego~~
+1. ~~default-backend~~
+
+### Docker Registry
+
 1. registry
+
+### CI/CD
+
+1. drone
+
+### Logging
+
+1. fluentd
+1. elasticsearch
+1. kibana
+
+### Monitoring
+
+1. node-exporter
+1. grafana
+1. prometheus
+
+### Event Bus
+
+1. rabbitmq
 
 ## Useful Links
 
