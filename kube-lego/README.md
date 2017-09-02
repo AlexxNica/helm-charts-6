@@ -5,7 +5,7 @@
 ## TL;DR;
 
 ```
-$ helm install --set config.LEGO_EMAIL=your@email.com --name kube-lego --namespace load-balancer .
+$ helm install --set config.LEGO_EMAIL=your@email.com --name kube-lego --namespace load-balancer carldanley/load-balancer
 ```
 
 ## Introduction
@@ -19,14 +19,14 @@ This chart bootstraps a [kube-lego](https://github.com/jetstack/kube-lego) deplo
 ## Installing the Chart
 
 ```
-$ helm install --set config.LEGO_EMAIL=your@email.com --name kube-lego --namespace load-balancer .
+$ helm install --set config.LEGO_EMAIL=your@email.com --name kube-lego --namespace load-balancer carldanley/load-balancer
 ```
 
 > Tip: List all releases using `helm list`
 
 ## Uninstalling the Chart
 
-To uninstall/delete the my-release deployment:
+To uninstall/delete the `kube-lego` deployment:
 
 ```
 $ helm delete kube-lego

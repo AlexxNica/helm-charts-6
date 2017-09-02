@@ -1,0 +1,13 @@
+image:
+  repository: gcr.io/google_containers/defaultbackend
+  tag: 1.5
+  pullPolicy: IfNotPresent
+replicaCount: 1
+resources:
+  limits:
+    cpu: 10m
+    memory: 20Mi
+  requests:
+    cpu: 10m
+    memory: 20Mi
+
