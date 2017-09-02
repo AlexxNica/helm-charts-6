@@ -16,7 +16,7 @@ This repository is pushed to [http://helm.carldanley.com](http://helm.carldanley
 
 ### Docker Registry
 
-1. registry
+1. ~~registry~~
 
 ### CI/CD
 
