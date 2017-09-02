@@ -37,6 +37,8 @@ spec:
           value: ":5000"
         - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
           value: "{{ .Values.storage.containerPath }}"
+        - name: REGISTRY_HTTP_SECRET
+          value: "{{ .Values.httpSecret }}"
         ports:
         - containerPort: 5000
         livenessProbe:
