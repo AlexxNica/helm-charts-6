@@ -8,7 +8,7 @@ This repository is pushed to [http://helm.carldanley](http://helm.carldanley.com
 
 ## Charts
 
-1. default-backend
+1. ~~default-backend~~
 1. drone
 1. elasticsearch
 1. fluentd
