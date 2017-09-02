@@ -2,7 +2,7 @@
 
 ## Adding To Helm
 
-This repository is pushed to [http://helm.carldanley](http://helm.carldanley.com). In order to add this repository to helm, you can perform the following command:
+This repository is pushed to [http://helm.carldanley.com](http://helm.carldanley.com). In order to add this repository to helm, you can perform the following command:
 
 `helm repo add carldanley http://helm.carldanley.com`
 
