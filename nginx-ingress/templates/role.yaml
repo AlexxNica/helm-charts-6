@@ -9,34 +9,34 @@ metadata:
   name: {{ template "fullname" . }}
 rules:
   - apiGroups:
-      - ""
+    - ""
     resources:
-      - configmaps
-      - namespaces
-      - pods
-      - secrets
+    - configmaps
+    - namespaces
+    - pods
+    - secrets
     verbs:
-      - get
+    - get
   - apiGroups:
-      - ""
+    - ""
     resources:
-      - configmaps
+    - configmaps
     resourceNames:
-      - {{ .Values.controller.electionID }}-{{ .Values.controller.ingressClass }}
+    - {{ .Values.controller.electionID }}-{{ .Values.controller.ingressClass }}
     verbs:
-      - get
-      - update
+    - get
+    - update
   - apiGroups:
-      - ""
+    - ""
     resources:
-      - configmaps
+    - configmaps
     verbs:
-      - create
+    - create
   - apiGroups:
-      - ""
+    - ""
     resources:
-      - endpoints
+    - endpoints
     verbs:
-      - create
-      - get
-      - update
+    - create
+    - get
+    - update

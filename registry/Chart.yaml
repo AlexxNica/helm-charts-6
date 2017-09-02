@@ -1,0 +1,12 @@
+name: registry
+version: 1.0.0
+description: A production docker registry.
+keywords:
+  - registry
+sources:
+  - https://github.com/carldanley/helm-charts/registry
+  - https://docs.docker.com/registry/
+maintainers:
+  - name: carldanley
+    email: carldanley@gmail.com
+engine: gotpl

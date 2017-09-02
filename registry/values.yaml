@@ -1,0 +1,25 @@
+image:
+  repository: registry
+  tag: 2.6.2
+  pullPolicy: IfNotPresent
+replicaCount: 1
+ingress:
+  domainName: "registry.domain.com"
+htpasswd:
+  enabled: true
+  realm: Registry Realm
+  credentials: {}
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 200Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 200Mi
+storage:
+  containerPath: /var/lib/registry
+  hostStorage:
+    enabled: true
+    path: /shared/registry
+  delete:
+    enabled: true

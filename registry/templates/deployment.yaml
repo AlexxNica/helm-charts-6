@@ -1,0 +1,65 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  name: {{ template "fullname" . }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ template "name" . }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        env:
+        {{- if .Values.htpasswd.enabled }}
+        - name: REGISTRY_AUTH
+          value: "htpasswd"
+        - name: REGISTRY_AUTH_HTPASSWD_REALM
+          value: "{{ .Values.htpasswd.realm }}"
+        - name: REGISTRY_AUTH_HTPASSWD_PATH
+          value: "/registry/htpasswd"
+        {{- end }}
+        {{- if .Values.storage.delete.enabled }}
+        - name: REGISTRY_STORAGE_DELETE_ENABLED
+          value: "true"
+        {{- end }}
+        - name: REGISTRY_HTTP_ADDR
+          value: ":5000"
+        - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
+          value: "{{ .Values.storage.containerPath }}"
+        ports:
+        - containerPort: 5000
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+        volumeMounts:
+        - name: htpasswd-volume
+          mountPath: /registry
+        {{- if .Values.storage.hostStorage.enabled }}
+        - name: data-volume
+          mountPath: {{ .Values.storage.containerPath }}
+        {{- end }}
+      volumes:
+      - name: htpasswd-volume
+        configMap:
+          name: {{ template "fullname" . }}-htpasswd
+      {{- if .Values.storage.hostStorage.enabled }}
+      - name: data-volume
+        hostPath:
+          path: {{ .Values.storage.hostStorage.path }}
+      {{- end }}

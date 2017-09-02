@@ -1,12 +1,12 @@
 # helm-charts
 
-## Adding To Helm
+## Adding this Repository to Helm
 
 This repository is pushed to [http://helm.carldanley.com](http://helm.carldanley.com). In order to add this repository to helm, you can perform the following command:
 
 `helm repo add carldanley http://helm.carldanley.com`
 
-## Charts
+## Included Charts
 
 ### Load Balancing
 

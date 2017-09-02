@@ -10,49 +10,49 @@ metadata:
   namespace: {{ .Release.Namespace }}
 rules:
   - apiGroups:
-      - ""
+    - ""
     resources:
-      - configmaps
-      - endpoints
-      - nodes
-      - pods
-      - secrets
+    - configmaps
+    - endpoints
+    - nodes
+    - pods
+    - secrets
     verbs:
-      - list
-      - watch
+    - list
+    - watch
   - apiGroups:
-      - ""
+    - ""
     resources:
-      - nodes
+    - nodes
     verbs:
-      - get
+    - get
   - apiGroups:
-      - ""
+    - ""
     resources:
-      - services
+    - services
     verbs:
-      - get
-      - list
-      - update
-      - watch
+    - get
+    - list
+    - update
+    - watch
   - apiGroups:
-      - extensions
+    - extensions
     resources:
-      - ingresses
+    - ingresses
     verbs:
-      - get
-      - list
-      - watch
+    - get
+    - list
+    - watch
   - apiGroups:
-      - ""
+    - ""
     resources:
-      - events
+    - events
     verbs:
-      - create
-      - patch
+    - create
+    - patch
   - apiGroups:
-      - extensions
+    - extensions
     resources:
-      - ingresses/status
+    - ingresses/status
     verbs:
-      - update
+    - update

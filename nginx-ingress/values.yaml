@@ -16,8 +16,6 @@ controller:
   ## Name of the ingress class to route through this controller
   ingressClass: nginx
   extraArgs: {}
-  ## DaemonSet or Deployment
-  kind: DaemonSet
   podAnnotations: {}
   replicaCount: 1
   resources:
