@@ -1,0 +1,19 @@
+image:
+  repository: spotify/docker-gc
+  tag: latest
+  pullPolicy: IfNotPresent
+cron:
+  schedule: "0 0 * * *"
+  log: /var/log/crond.log
+env:
+  gracePeriodSeconds: "0"
+  dockerAPIVersion: "1.29"
+# List any image or container exclusions here
+# exclude:
+#   images: |-
+#     spotify/cassandra:latest
+#     redis:.*
+#     9681260c3ad5
+#   containers: |-
+#     mariadb-data
+#     inimitable_quokka
