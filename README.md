@@ -38,6 +38,10 @@ This repository is pushed to [http://helm.carldanley.com](http://helm.carldanley
 
 1. rabbitmq
 
+### Other Helpful Software
+
+1. ~~spotify-docker-gc~~
+
 ## Useful Links
 
 * Useful Kubernetes addons: [https://kubernetes.io/docs/concepts/cluster-administration/addons/](https://kubernetes.io/docs/concepts/cluster-administration/addons/).
