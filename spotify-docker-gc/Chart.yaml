@@ -2,12 +2,12 @@ name: spotify-docker-gc
 version: 0.1.0
 description: A simple Docker container and image garbage collection script.
 keywords:
-  - gc
-  - prune
+- gc
+- prune
 home: https://github.com/spotify/docker-gc
 sources:
-  - https://github.com/spotify/docker-gc
+- https://github.com/spotify/docker-gc
 maintainers:
-  - name: carldanley
-    email: carldanley@gmail.com
+- name: carldanley
+  email: carldanley@gmail.com
 engine: gotpl

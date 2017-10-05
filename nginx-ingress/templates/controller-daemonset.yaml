@@ -57,13 +57,6 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: 10254
-              scheme: HTTP
-            initialDelaySeconds: 10
-            timeoutSeconds: 1
           ports:
             - name: http
               containerPort: 80

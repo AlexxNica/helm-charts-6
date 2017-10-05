@@ -3,12 +3,12 @@ description: Automatically requests certificates from Let's Encrypt
 name: kube-lego
 version: 1.0.0
 keywords:
-  - kube-lego
-  - letsencrypt
+- kube-lego
+- letsencrypt
 sources:
-  - https://github.com/carldanley/helm-charts/kube-lego
-  - https://github.com/jetstack/kube-lego/tree/master/examples/nginx
+- https://github.com/carldanley/helm-charts/kube-lego
+- https://github.com/jetstack/kube-lego/tree/master/examples/nginx
 maintainers:
-  - name: Carl Danley
-    email: carldanley@gmail.com
+- name: Carl Danley
+  email: carldanley@gmail.com
 engine: gotpl

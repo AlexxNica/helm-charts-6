@@ -40,12 +40,6 @@ spec:
         {{- end }}
           ports:
             - containerPort: {{ .Values.config.LEGO_PORT }}
-          readinessProbe:
-            httpGet:
-              path: /healthz
-              port: {{ .Values.config.LEGO_PORT }}
-            initialDelaySeconds: 5
-            timeoutSeconds: 1
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- if .Values.nodeSelector }}
