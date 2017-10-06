@@ -7,10 +7,10 @@ podAnnotations: {}
 replicaCount: 1
 resources:
   limits:
-    cpu: 100m
+    cpu: 200m
     memory: 64Mi
   requests:
-    cpu: 100m
+    cpu: 200m
     memory: 64Mi
 config:
   # Link to environment variables used by kube-lego:
