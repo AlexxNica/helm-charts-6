@@ -8,10 +8,10 @@ replicaCount: 1
 resources:
   limits:
     cpu: 100m
-    memory: 32Mi
+    memory: 64Mi
   requests:
     cpu: 100m
-    memory: 32Mi
+    memory: 64Mi
 config:
   # Link to environment variables used by kube-lego:
   # https://github.com/jetstack/kube-lego#environment-variables
