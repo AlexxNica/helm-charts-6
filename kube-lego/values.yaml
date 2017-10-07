@@ -1,6 +1,6 @@
 image:
   repository: jetstack/kube-lego
-  tag: 0.1.4
+  tag: 0.1.5
   pullPolicy: IfNotPresent
 nodeSelector: {}
 podAnnotations: {}
@@ -8,10 +8,10 @@ replicaCount: 1
 resources:
   limits:
     cpu: 200m
-    memory: 64Mi
+    memory: 200Mi
   requests:
     cpu: 200m
-    memory: 64Mi
+    memory: 200Mi
 config:
   # Link to environment variables used by kube-lego:
   # https://github.com/jetstack/kube-lego#environment-variables
