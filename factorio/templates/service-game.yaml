@@ -12,7 +12,7 @@ spec:
   ports:
   - port: {{ .Values.factorio.service.game.port }}
     targetPort: {{ .Values.factorio.service.game.port }}
-    nodePort: {{ .Values.factorio.service.game.port }}
+    nodePort: {{ .Values.factorio.service.game.exposedPort }}
     protocol: UDP
     name: game
   type: {{ .Values.factorio.service.game.type }}

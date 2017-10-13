@@ -17,6 +17,7 @@ factorio:
     game:
       type: NodePort
       port: 34197
+      exposedPort: 30030
     rcon:
       enabled: false
       type: LoadBalancer
