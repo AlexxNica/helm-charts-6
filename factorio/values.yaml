@@ -10,9 +10,9 @@ factorio:
       memory: 1024Mi
   nodeSelector:
     enabled: false
-    labels:
-      test: true
-      hello: world
+    labels: {}
+      # test: true
+      # hello: world
   service:
     game:
       type: NodePort
