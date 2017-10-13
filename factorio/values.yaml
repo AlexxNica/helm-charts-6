@@ -1,0 +1,28 @@
+factorio:
+  image:
+    repository: dtandersen/factorio
+    tag: 0.15.34
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1024Mi
+  nodeSelector:
+    enabled: true
+    labels:
+      test: true
+      hello: world
+  service:
+    game:
+      type: NodePort
+      port: 34197
+    rcon:
+      enabled: true
+      type: LoadBalancer
+      port: 27015
+  storage:
+    containerPath: /factorio
+    hostStorage:
+      enabled: true
+      path: /shared/factorio

@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  name: {{ template "fullname" . }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.factorio.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ template "name" . }}
+        image: "{{ .Values.factorio.image.repository }}:{{ .Values.factorio.image.tag }}"
+        imagePullPolicy: "{{ .Values.factorio.image.pullPolicy }}"
+        ports:
+        - containerPort: {{ .Values.factorio.service.game.port }}
+        {{- if .Values.factorio.service.rcon.enabled }}
+        - containerPort: {{ .Values.factorio.service.rcon.port }}
+        {{- end }}
+        resources:
+{{ toYaml .Values.factorio.resources | indent 10 }}
+        volumeMounts:
+        {{- if .Values.factorio.storage.hostStorage.enabled }}
+        - name: data-volume
+          mountPath: {{ .Values.factorio.storage.containerPath }}
+        {{- end }}
+      {{- if .Values.factorio.nodeSelector.enabled }}
+      nodeSelector:
+{{ toYaml .Values.factorio.nodeSelector.labels | indent 8 }}
+      {{- end }}
+      volumes:
+      {{- if .Values.factorio.storage.hostStorage.enabled }}
+      - name: data-volume
+        hostPath:
+          path: {{ .Values.factorio.storage.hostStorage.path }}
+      {{- end }}
