@@ -6,7 +6,7 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  name: {{ template "fullname" . }}
+  name: {{ template "fullname" . }}-game
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
@@ -15,12 +15,7 @@ spec:
     nodePort: {{ .Values.factorio.service.game.port }}
     protocol: UDP
     name: game
-  {{- if .Values.factorio.service.rcon.enabled }}
-  - port: {{ .Values.factorio.service.rcon.port }}
-    targetPort: {{ .Values.factorio.service.rcon.port }}
-    protocol: TCP
-    name: rcon
-  {{- end }}
+  type: {{ .Values.factorio.service.game.type }}
   selector:
     app: {{ template "name" . }}
     release: {{ .Release.Name }}

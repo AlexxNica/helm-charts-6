@@ -1,0 +1,23 @@
+{{- if .Values.factorio.service.rcon.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  name: {{ template "fullname" . }}-rcon
+  namespace: {{ .Release.Namespace }}
+spec:
+  ports:
+  - port: {{ .Values.factorio.service.rcon.port }}
+    targetPort: {{ .Values.factorio.service.rcon.port }}
+    nodePort: {{ .Values.factorio.service.rcon.port }}
+    protocol: UDP
+    name: rcon
+  type: {{ .Values.factorio.service.rcon.type }}
+  selector:
+    app: {{ template "name" . }}
+    release: {{ .Release.Name }}
+{{- end }}
