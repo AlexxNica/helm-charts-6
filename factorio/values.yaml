@@ -9,7 +9,7 @@ factorio:
       cpu: 500m
       memory: 1024Mi
   nodeSelector:
-    enabled: true
+    enabled: false
     labels:
       test: true
       hello: world
@@ -18,11 +18,11 @@ factorio:
       type: NodePort
       port: 34197
     rcon:
-      enabled: true
+      enabled: false
       type: LoadBalancer
       port: 27015
   storage:
     containerPath: /factorio
     hostStorage:
-      enabled: true
+      enabled: false
       path: /shared/factorio
