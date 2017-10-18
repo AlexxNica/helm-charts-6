@@ -6,41 +6,30 @@ This repository is pushed to [http://helm.carldanley.com](http://helm.carldanley
 
 `helm repo add carldanley http://helm.carldanley.com`
 
-## Included Charts
-
-### Load Balancing
-
-1. ~~nginx-ingress~~
-1. ~~kube-lego~~
-1. ~~default-backend~~
-
-### Docker Registry
-
-1. ~~registry~~
-
-### CI/CD
-
-1. drone
-
-### Logging
+## Charts
 
 1. fluentd
 1. elasticsearch
 1. kibana
-
-### Monitoring
-
-1. node-exporter
+1. prometheus node-exporter
 1. grafana
-1. prometheus
-
-### Event Bus
-
-1. rabbitmq
-
-### Other Helpful Software
-
-1. ~~spotify-docker-gc~~
+1. jenkins
+1. drone-ci
+1. selenium
+1. vault
+1. vault-ui (still need to decided on this)
+1. nginx-ingress-controller
+1. kubernetes-dashboard
+1. kube-lego
+1. spotify-docker-gc
+1. log-rotation
+1. cluster autoscaler
+1. mongodb
+1. mariadb
+1. redis
+1. postgres
+1. cassandra
+1. kong
 
 ## Useful Links
 
