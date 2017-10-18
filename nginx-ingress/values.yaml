@@ -1,95 +1,39 @@
-## nginx configuration
-## Ref: https://github.com/kubernetes/ingress/blob/master/controllers/nginx/configuration.md
 controller:
   name: controller
   image:
     repository: gcr.io/google_containers/nginx-ingress-controller
     tag: "0.9.0-beta.15"
     pullPolicy: IfNotPresent
-  # Ref: https://github.com/kubernetes/ingress/blob/master/controllers/nginx/configuration.md#custom-nginx-configuration
   config: {}
-  ## Required only if there is a default backend
-  ## Must be <namespace>/<service_name>
-  defaultBackendService: "load-balancer/default-backend"
-  ## Election ID to use for status update
-  electionID: ingress-controller-leader
-  ## Name of the ingress class to route through this controller
-  ingressClass: nginx
+    # Reference: https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/configmap.md
+    # proxy-connect-timeout: "15"
+    # proxy-read-timeout: "3600"
+    # proxy-send-imeout: "3600"
+    # proxy-body-size: "0"
+    # hsts-include-subdomains: "false"
+    # server-name-hash-bucket-size: "256"
+  defaultBackend:
+    enabled: false
+    # note: service must be <namespace>/<service_name>
+    service: "load-balancer/default-backend"
   extraArgs: {}
   podAnnotations: {}
-  replicaCount: 1
-  resources:
-    limits:
-      cpu: 1000m
-      memory: 500Mi
-    requests:
-      cpu: 1000m
-      memory: 500Mi
+  resources: {}
+    # limits:
+    #   cpu: 1000m
+    #   memory: 500Mi
+    # requests:
+    #   cpu: 1000m
+    #   memory: 500Mi
   service:
+    # Reference: https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/annotations.md
     annotations: {}
-    clusterIP: ""
-    ## List of IP addresses at which the controller services are available
-    ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips
-    externalIPs: []
-    loadBalancerIP: ""
-    loadBalancerSourceRanges: []
-    ## Set external traffic policy to: "Local" to preserve source IP on
-    ## providers supporting it
-    ## Ref: https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-typeloadbalancer
-    externalTrafficPolicy: ""
     targetPorts:
       http: 80
       https: 443
-    type: NodePort
+    loadBalancer:
+      enabled: true
     nodePorts:
+      enabled: false
       http: 30000
       https: 30001
-  stats:
-    enabled: true
-    service:
-      annotations: {}
-      clusterIP: ""
-      ## List of IP addresses at which the stats service is available
-      ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips
-      externalIPs: []
-      loadBalancerIP: ""
-      loadBalancerSourceRanges: []
-      servicePort: 18080
-      type: ClusterIP
-## If controller.stats.enabled = true, Prometheus metrics will be exported
-## Ref: https://github.com/hnlq715/nginx-vts-exporter
-statsExporter:
-  name: stats-exporter
-  image:
-    repository: quay.io/cy-play/vts-nginx-exporter
-    tag: v0.0.3
-    pullPolicy: IfNotPresent
-  endpoint: /metrics
-  extraArgs: {}
-  metricsNamespace: nginx
-  statusPage: http://localhost:18080/nginx_status/format/json
-  resources:
-    limits:
-      cpu: 10m
-      memory: 20Mi
-    requests:
-      cpu: 10m
-      memory: 20Mi
-  service:
-    annotations: {}
-    clusterIP: ""
-    ## List of IP addresses at which the stats-exporter service is available
-    ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips
-    externalIPs: []
-    loadBalancerIP: ""
-    loadBalancerSourceRanges: []
-    servicePort: 9913
-    type: ClusterIP
-# TCP service key:value pairs
-# Ref: https://github.com/kubernetes/contrib/tree/master/ingress/controllers/nginx/examples/tcp
-tcp: {}
-  # 8080: "default/example-tcp-svc:9000"
-# UDP service key:value pairs
-# Ref: https://github.com/kubernetes/contrib/tree/master/ingress/controllers/nginx/examples/udp
-udp: {}
-  # 53: "kube-system/kube-dns:53"

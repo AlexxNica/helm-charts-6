@@ -4,13 +4,10 @@ metadata:
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-    component: "{{ .Values.controller.name }}"
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
   name: {{ template "controller.fullname" . }}
-  namespace: {{ .Release.Namespace }}
 data:
-  enable-vts-status: "{{ .Values.controller.stats.enabled }}"
 {{- if .Values.controller.config }}
 {{ toYaml .Values.controller.config | indent 2 }}
 {{- end }}

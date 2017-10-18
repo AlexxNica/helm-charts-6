@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+{{- if .Values.controller.service.annotations }}
+  annotations:
+{{ toYaml .Values.controller.service.annotations | indent 4 }}
+{{- end }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  name: {{ template "controller.fullname" . }}
+spec:
+  clusterIP: ""
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: {{ .Values.controller.service.targetPorts.http }}
+    {{- if (and (.Values.controller.service.nodePorts.enabled) (not (empty .Values.controller.service.nodePorts.http))) }}
+    nodePort: {{ .Values.controller.service.nodePorts.http }}
+    {{- end }}
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: {{ .Values.controller.service.targetPorts.https }}
+    {{- if (and (.Values.controller.service.nodePorts.enabled) (not (empty .Values.controller.service.nodePorts.https))) }}
+    nodePort: {{ .Values.controller.service.nodePorts.https }}
+    {{- end }}
+  selector:
+    app: {{ template "name" . }}
+    component: "{{ .Values.controller.name }}"
+    release: {{ .Release.Name }}
+  {{- if .Values.controller.service.nodePorts.enabled }}
+  type: NodePort
+  {{- end }}
+  {{- if .Values.controller.service.loadBalancer.enabled }}
+  type: LoadBalancer
+  {{- end }}
