@@ -13,7 +13,7 @@ controller:
     # hsts-include-subdomains: "false"
     # server-name-hash-bucket-size: "256"
   defaultBackend:
-    enabled: false
+    enabled: true
     # note: service must be <namespace>/<service_name>
     service: "load-balancer/default-backend"
   extraArgs: {}
