@@ -11,7 +11,8 @@ This repository is pushed to [http://helm.carldanley.com](http://helm.carldanley
 1. fluentd
 1. elasticsearch
 1. kibana
-1. prometheus node-exporter
+1. prometheus
+1. node-exporter for prometheus
 1. grafana
 1. jenkins
 1. drone-ci
