@@ -1,0 +1,9 @@
+dependencies:
+- name: default-backend
+  repository: http://helm.carldanley.com
+  version: 1.3.0
+- name: kube-lego
+  repository: http://helm.carldanley.com
+  version: 1.0.2
+digest: sha256:c70514f69be4431412308f6d74f311865a89b8527267ead962a45c6b60a692eb
+generated: 2017-10-18T15:41:29.781077786-04:00

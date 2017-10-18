@@ -5,13 +5,13 @@ image:
 nodeSelector: {}
 podAnnotations: {}
 replicaCount: 1
-resources:
-  limits:
-    cpu: 200m
-    memory: 200Mi
-  requests:
-    cpu: 200m
-    memory: 200Mi
+resources: {}
+  # limits:
+  #   cpu: 200m
+  #   memory: 200Mi
+  # requests:
+  #   cpu: 200m
+  #   memory: 200Mi
 config:
   # Link to environment variables used by kube-lego:
   # https://github.com/jetstack/kube-lego#environment-variables
