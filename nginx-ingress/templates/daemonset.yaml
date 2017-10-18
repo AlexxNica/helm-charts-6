@@ -19,11 +19,6 @@ spec:
         component: "{{ .Values.controller.name }}"
         release: {{ .Release.Name }}
     spec:
-      {{- if .Values.controller.service.nodePorts.enabled }}
-      tolerations:
-      - key: node-role.kubernetes.io/master
-        effect: NoSchedule
-      {{- end }}
       containers:
       - name: {{ template "name" . }}-{{ .Values.controller.name }}
         image: "{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}"
@@ -67,7 +62,3 @@ spec:
 {{ toYaml .Values.controller.resources | indent 10 }}
       serviceAccountName: {{ template "name" . }}
       terminationGracePeriodSeconds: 60
-      {{- if .Values.controller.service.nodePorts.enabled }}
-      nodeSelector:
-        kubernetes.io/role: master
-      {{- end }}
