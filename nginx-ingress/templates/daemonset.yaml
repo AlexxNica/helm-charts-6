@@ -65,3 +65,5 @@ spec:
 {{ toYaml .Values.controller.resources | indent 10 }}
       serviceAccountName: {{ template "name" . }}
       terminationGracePeriodSeconds: 60
+      nodeSelector:
+        kubernetes.io/role: master
