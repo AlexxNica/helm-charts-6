@@ -6,7 +6,7 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  name: {{ template "controller.fullname" . }}
+  name: {{ template "name" . }}
 spec:
   template:
     metadata:
@@ -38,9 +38,9 @@ spec:
           - --ingress-class=nginx
         {{- end }}
         {{- if (contains "0.9" .Values.controller.image.tag) }}
-          - --configmap={{ .Release.Namespace }}/{{ template "controller.fullname" . }}
+          - --configmap={{ .Release.Namespace }}/{{ template "name" . }}
         {{- else }}
-          - --nginx-configmap={{ .Release.Namespace }}/{{ template "controller.fullname" . }}
+          - --nginx-configmap={{ .Release.Namespace }}/{{ template "name" . }}
         {{- end }}
         {{- range $key, $value := .Values.controller.extraArgs }}
           - --{{ $key }}={{ $value }}
@@ -63,5 +63,5 @@ spec:
           protocol: TCP
         resources:
 {{ toYaml .Values.controller.resources | indent 10 }}
-      serviceAccountName: {{ template "fullname" . }}
+      serviceAccountName: {{ template "name" . }}
       terminationGracePeriodSeconds: 60

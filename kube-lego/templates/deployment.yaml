@@ -6,7 +6,7 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  name: {{ template "fullname" . }}
+  name: {{ template "name" . }}
 spec:
   replicas: {{ .Values.replicaCount }}
   template:
@@ -19,7 +19,7 @@ spec:
         app: {{ template "name" . }}
         release: {{ .Release.Name }}
     spec:
-      serviceAccountName: {{ template "fullname" . }}
+      serviceAccountName: {{ template "name" . }}
       containers:
       - name: {{ template "name" . }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
