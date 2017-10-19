@@ -40,11 +40,13 @@ spec:
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         volumeMounts:
+        - name: data
+          mountPath: /bitnami/mariadb
+        {{- if .Values.config }}
         - name: config
           mountPath: /bitnami/mariadb/conf/my_custom.cnf
           subPath: my.cnf
-        - name: data
-          mountPath: /bitnami/mariadb
+        {{- end }}
 {{- if .Values.metrics.enabled }}
       - name: metrics
         image: "{{ .Values.metrics.image.repository }}:{{ .Values.metrics.image.tag }}"
@@ -63,9 +65,11 @@ spec:
 {{ toYaml .Values.metrics.resources | indent 10 }}
 {{- end }}
       volumes:
+      {{- if .Values.config }}
       - name: config
         configMap:
           name: {{ template "name" . }}
+      {{- end }}
       - name: data
       {{- if .Values.persistence.enabled }}
         persistentVolumeClaim:
