@@ -18,7 +18,6 @@ persistence:
   enabled: false
   storageClass: "gp2"
   accessMode: ReadWriteOnce
-  reclaimPolicy: Retain
   size: 8Gi
 metrics:
   enabled: false
