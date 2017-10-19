@@ -73,7 +73,7 @@ spec:
       - name: data
       {{- if .Values.persistence.enabled }}
         persistentVolumeClaim:
-          claimName: {{ template "name" . }}-data
+          claimName: {{ template "name" . }}
       {{- else }}
         emptyDir: {}
       {{- end -}}
