@@ -6,7 +6,7 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  name: {{ template "fullname" . }}-game
+  name: {{ template "name" . }}-game
   namespace: {{ .Release.Namespace }}
 spec:
   ports:

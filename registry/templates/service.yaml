@@ -6,14 +6,14 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  name: {{ template "fullname" . }}
+  name: {{ template "name" . }}
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - port: 443
       targetPort: 5000
       protocol: TCP
-      name: {{ template "fullname" . }}
+      name: {{ template "name" . }}
   selector:
     app: {{ template "name" . }}
     release: {{ .Release.Name }}

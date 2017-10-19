@@ -6,13 +6,10 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  name: {{ template "fullname" . }}
-  namespace: {{ .Release.Namespace }}
+  name: {{ template "name" . }}
 spec:
-  {{- if ge .Capabilities.KubeVersion.Minor "6" }}
   updateStrategy:
     type: RollingUpdate
-  {{- end }}
   template:
     metadata:
       labels:

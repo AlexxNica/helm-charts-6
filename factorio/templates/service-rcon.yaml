@@ -7,7 +7,7 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  name: {{ template "fullname" . }}-rcon
+  name: {{ template "name" . }}-rcon
   namespace: {{ .Release.Namespace }}
 spec:
   ports:

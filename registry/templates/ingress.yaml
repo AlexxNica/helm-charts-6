@@ -6,7 +6,7 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  name: {{ template "fullname" . }}
+  name: {{ template "name" . }}
   namespace: {{ .Release.Namespace }}
   annotations:
     kubernetes.io/tls-acme: "true"
@@ -15,12 +15,12 @@ spec:
   tls:
   - hosts:
     - {{ .Values.registry.ingress.domainName }}
-    secretName: {{ template "fullname" . }}-tls-certs
+    secretName: {{ template "name" . }}-tls-certs
   rules:
   - host: {{ .Values.registry.ingress.domainName }}
     http:
       paths:
       - path: /
         backend:
-          serviceName: {{ template "fullname" . }}
+          serviceName: {{ template "name" . }}
           servicePort: 443
