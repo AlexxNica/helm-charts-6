@@ -1,21 +1,38 @@
-image: bitnami/mariadb:10.1.26-r2
-imagePullPolicy: IfNotPresent
-usePassword: true
+image:
+  repository: bitnami/mariadb
+  tag: 10.1.28-r1
+  pullPolicy: IfNotPresent
 serviceType: ClusterIP
-# mariadbRootPassword:
-# mariadbUser:
-# mariadbPassword:
-# mariadbDatabase:
+database:
+  name: root
+  root:
+    password: root
+  user:
+    enabled: false
+    username: guest
+    password: guest
+# config: |-
+#   [mysqld]
+#   innodb_buffer_pool_size=2G
+persistence:
+  enabled: false
+  storageClass: "gp2"
+  accessMode: ReadWriteOnce
+  size: 8Gi
 metrics:
   enabled: false
-  image: prom/mysqld-exporter
-  imageTag: v0.10.0
-  imagePullPolicy: IfNotPresent
+  image:
+    repository: prom/mysqld-exporter
+    tag: v0.10.0
+    pullPolicy: IfNotPresent
   resources: {}
   annotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "9104"
-resources:
-  requests:
-    memory: 256Mi
-    cpu: 250m
+resources: {}
+  # limits:
+  #   cpu: 256Mi
+  #   memory: 250m
+  # requests:
+  #   cpu: 256Mi
+  #   memory: 250m
