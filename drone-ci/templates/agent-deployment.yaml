@@ -1,0 +1,47 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+    component: agent
+  name: {{ template "name" . }}-agent
+spec:
+  replicas: {{ .Values.agent.count }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ template "name" . }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        args:
+        - agent
+        env:
+        - name: DOCKER_API_VERSION
+          value: {{ .Values.docker.apiVersion | quote }}
+        - name: DRONE_DEBUG
+          value: {{ .Values.agent.debug.enabled | default false | quote }}
+        - name: DRONE_SERVER
+          value: "{{ .Release.Name }}.{{ .Release.Namespace }}:9000"
+        - name: DRONE_SECRET
+          value: {{ .Values.agent.secret | quote }}
+        volumeMounts:
+        - name: docker-socket
+          mountPath: /var/run/docker.sock
+        - name: docker-lib
+          mountPath: /var/lib/docker
+        resources:
+{{ toYaml .Values.agent.resources | indent 10 }}
+      volumes:
+      - name: docker-socket
+        hostPath:
+          path: /var/run/docker.sock
+      - name: docker-lib
+        hostPath:
+          path: /var/lib/docker

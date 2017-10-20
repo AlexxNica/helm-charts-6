@@ -30,7 +30,6 @@ spec:
     {{- end }}
   selector:
     app: {{ template "name" . }}
-    component: "{{ .Values.controller.name }}"
     release: {{ .Release.Name }}
   {{- if .Values.controller.service.nodePorts.enabled }}
   type: NodePort

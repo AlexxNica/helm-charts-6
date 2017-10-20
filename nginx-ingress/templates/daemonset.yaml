@@ -16,7 +16,6 @@ spec:
     {{- end }}
       labels:
         app: {{ template "name" . }}
-        component: "{{ .Values.controller.name }}"
         release: {{ .Release.Name }}
     spec:
       containers:

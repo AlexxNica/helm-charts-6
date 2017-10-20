@@ -1,0 +1,13 @@
+name: drone-ci
+version: 1.1
+description: A continuous integration service that works fully within the bounds of docker.
+keywords:
+- ci
+- drone
+home: https://github.com/drone/drone
+sources:
+- https://github.com/drone/drone
+maintainers:
+- name: carldanley
+  email: carldanley@gmail.com
+engine: gotpl

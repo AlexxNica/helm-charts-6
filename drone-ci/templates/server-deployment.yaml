@@ -1,0 +1,58 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+    component: server
+  name: {{ template "name" . }}-server
+spec:
+  replicas: {{ .Values.agent.count }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ template "name" . }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        env:
+        - name: DRONE_OPEN
+          value: {{ .Values.server.isOpen | quote }}
+        - name: DRONE_DEBUG
+          value: {{ .Values.server.debug.enabled | default false | quote }}
+        - name: DRONE_SECRET
+          value: {{ .Values.agent.secret | quote }}
+        - name: DRONE_DATABASE_DRIVER
+          value: {{ .Values.database.driver | quote }}
+        - name: DRONE_DATABASE_DATASOURCE
+          value: {{ .Values.database.datasource | quote }}
+        - name: DRONE_ADMIN
+          value: "{{ .Values.server.adminList | toStrings | join "," }}"
+        - name: DRONE_ORGS
+          value: "{{ .Values.server.organizations | toStrings | join "," }}"
+        {{- if .Values.ingress.enabled }}
+        - name: DRONE_HOST
+          {{- if eq (.Values.service.port | printf "%.0f") "443" }}
+          value: "https://{{ .Values.ingress.domain }}"
+          {{- else }}
+          value: "http://{{ .Values.ingress.domain }}"
+          {{- end }}
+        {{- end }}
+        - name: "DRONE_{{ .Values.server.remote.type | upper }}"
+          value: "true"
+        - name: "DRONE_{{ .Values.server.remote.type | upper }}_URL"
+          value: {{ .Values.server.remote.url | quote }}
+        - name: "DRONE_{{ .Values.server.remote.type | upper }}_CLIENT"
+          value: {{ .Values.server.remote.client | quote }}
+        - name: "DRONE_{{ .Values.server.remote.type | upper }}_SECRET"
+          value: {{ .Values.server.remote.secret | quote }}
+        ports:
+        - containerPort: 8000
+        - containerPort: 9000
+        resources:
+{{ toYaml .Values.agent.resources | indent 10 }}
