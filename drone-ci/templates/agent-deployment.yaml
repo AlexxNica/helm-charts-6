@@ -28,9 +28,17 @@ spec:
         - name: DRONE_DEBUG
           value: {{ .Values.agent.debug.enabled | default false | quote }}
         - name: DRONE_SERVER
-          value: "{{ .Release.Name }}.{{ .Release.Namespace }}:9000"
+          value: "{{ template "name" . }}.{{ .Release.Namespace }}:9000"
         - name: DRONE_SECRET
           value: {{ .Values.agent.secret | quote }}
+        {{- if .Values.ingress.enabled }}
+        - name: DRONE_HOST
+          {{- if eq (.Values.service.port | printf "%.0f") "443" }}
+          value: "https://{{ .Values.ingress.domain }}"
+          {{- else }}
+          value: "http://{{ .Values.ingress.domain }}"
+          {{- end }}
+        {{- end }}
         volumeMounts:
         - name: docker-socket
           mountPath: /var/run/docker.sock

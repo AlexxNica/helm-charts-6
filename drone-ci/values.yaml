@@ -5,15 +5,16 @@ image:
 docker:
   apiVersion: "1.23"
 server:
+  count: 3
   isOpen: false
   debug:
     enabled: true
-  adminList: {}
-  # - UserA
-  # - UserB
-  organizations: {}
-  # - OrganizationA
-  # - OrganizationB
+  adminList:
+  - UserA
+  - UserB
+  organizations:
+  - OrganizationA
+  - OrganizationB
   remote:
     type: github
     client: client
@@ -71,5 +72,5 @@ mariadb:
       tag: v0.10.0
       pullPolicy: IfNotPresent
     annotations:
-      # prometheus.io/scrape: "true"
-      # prometheus.io/port: "9104"
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "9104"

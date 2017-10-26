@@ -9,7 +9,7 @@ metadata:
     component: server
   name: {{ template "name" . }}-server
 spec:
-  replicas: {{ .Values.agent.count }}
+  replicas: {{ .Values.server.count }}
   template:
     metadata:
       labels:

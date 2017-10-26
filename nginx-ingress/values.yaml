@@ -37,22 +37,3 @@ controller:
       enabled: false
       http: 30000
       https: 30001
-default-backend:
-  resources: {}
-    # limits:
-    #   cpu: 10m
-    #   memory: 20Mi
-    # requests:
-    #   cpu: 10m
-    #   memory: 20Mi
-kube-lego:
-  config: {}
-    # LEGO_EMAIL: "email@corporate.com"
-    # LEGO_URL: "https://acme-staging.api.letsencrypt.org/directory"
-  resources: {}
-    # limits:
-    #   cpu: 200m
-    #   memory: 200Mi
-    # requests:
-    #   cpu: 200m
-    #   memory: 200Mi
