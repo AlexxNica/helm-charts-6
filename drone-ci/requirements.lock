@@ -1,6 +1,0 @@
-dependencies:
-- name: mariadb
-  repository: http://helm.carldanley.com
-  version: "1.1"
-digest: sha256:e92d94b9228712649987a86b2f79946005e8d5824eedfa1bd4d2b992dd319ced
-generated: 2017-10-23T10:15:52.419987-04:00
