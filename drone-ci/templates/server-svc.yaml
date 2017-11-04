@@ -12,7 +12,7 @@ spec:
   - port: {{ .Values.service.port }}
     targetPort: 8000
     protocol: TCP
-    name: https
+    name: server
   - port: 9000
     targetPort: 9000
     protocol: TCP

@@ -17,39 +17,32 @@ spec:
         release: {{ .Release.Name }}
     spec:
       containers:
-      - name: {{ template "name" . }}
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
-        args:
-        - agent
+      - name: {{ template "name" . }}-agent
+        image: "{{ .Values.agent.image.repository }}:{{ .Values.agent.image.tag }}"
+        imagePullPolicy: "{{ .Values.agent.image.pullPolicy }}"
         env:
         - name: DOCKER_API_VERSION
           value: {{ .Values.docker.apiVersion | quote }}
         - name: DRONE_DEBUG
           value: {{ .Values.agent.debug.enabled | default false | quote }}
-        - name: DRONE_SERVER
-          value: "{{ template "name" . }}.{{ .Release.Namespace }}:9000"
         - name: DRONE_SECRET
           value: {{ .Values.agent.secret | quote }}
-        {{- if .Values.ingress.enabled }}
-        - name: DRONE_HOST
-          {{- if eq (.Values.service.port | printf "%.0f") "443" }}
-          value: "https://{{ .Values.ingress.domain }}"
-          {{- else }}
-          value: "http://{{ .Values.ingress.domain }}"
-          {{- end }}
-        {{- end }}
-        volumeMounts:
-        - name: docker-socket
-          mountPath: /var/run/docker.sock
-        - name: docker-lib
-          mountPath: /var/lib/docker
+        - name: DRONE_SERVER
+          value: "{{ template "name" . }}.{{ .Release.Namespace }}:9000"
+        - name: DOCKER_HOST
+          value: "tcp://localhost:2375"
         resources:
 {{ toYaml .Values.agent.resources | indent 10 }}
+      - name: {{ template "name" . }}-dind
+        image: docker:dind
+        env:
+        - name: DOCKER_DRIVER
+          value: overlay
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: docker-graph-storage
+          mountPath: /var/lib/docker
       volumes:
-      - name: docker-socket
-        hostPath:
-          path: /var/run/docker.sock
-      - name: docker-lib
-        hostPath:
-          path: /var/lib/docker
+      - name: docker-graph-storage
+        emptyDir: {}
