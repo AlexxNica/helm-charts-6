@@ -31,6 +31,7 @@ storage:
     secure: true
     v4Auth: true
     chunkSize: "5242880"
+    rootDirectory: "/"
   persistence:
     enabled: false
     accessMode: ReadWriteOnce

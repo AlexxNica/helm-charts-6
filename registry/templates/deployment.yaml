@@ -38,7 +38,7 @@ spec:
         - name: REGISTRY_STORAGE_CACHE_BLOBDESCRIPTOR
           value: "inmemory"
         - name: REGISTRY_STORAGE_S3_ROOTDIRECTORY
-          value: "/var/lib/registry"
+          value: {{ .Values.storage.s3.rootDirectory | quote }}
         - name: REGISTRY_STORAGE_S3_ACCESSKEY
           value: {{ .Values.storage.s3.accessKey | quote }}
         - name: REGISTRY_STORAGE_S3_SECRETKEY
