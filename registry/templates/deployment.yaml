@@ -34,7 +34,7 @@ spec:
         {{- end }}
         {{- if .Values.storage.s3.enabled }}
         - name: REGISTRY_STORAGE
-          value: "S3"
+          value: "s3"
         - name: REGISTRY_STORAGE_S3_ROOTDIRECTORY
           value: "/var/lib/registry"
         - name: REGISTRY_STORAGE_S3_ACCESSKEY
