@@ -32,6 +32,32 @@ spec:
         - name: REGISTRY_STORAGE_DELETE_ENABLED
           value: "true"
         {{- end }}
+        {{- if .Values.storage.s3.enabled }}
+        - name: REGISTRY_STORAGE
+          value: "S3"
+        - name: REGISTRY_STORAGE_S3_ACCESSKEY
+          value: {{ .Values.storage.s3.accessKey | quote }}
+        - name: REGISTRY_STORAGE_S3_SECRETKEY
+          value: {{ .Values.storage.s3.secretKey | quote }}
+        - name: REGISTRY_STORAGE_S3_REGION
+          value: {{ .Values.storage.s3.region | quote }}
+        - name: REGISTRY_STORAGE_S3_BUCKET
+          value: {{ .Values.storage.s3.bucket | quote }}
+        {{- if .Values.storage.s3.encrypt }}
+        - name: REGISTRY_STORAGE_S3_ENCRYPT
+          value: "true"
+        {{- end }}
+        {{- if .Values.storage.s3.secure }}
+        - name: REGISTRY_STORAGE_S3_SECURE
+          value: "true"
+        {{- end }}
+        {{- if .Values.storage.s3.v4Auth }}
+        - name: REGISTRY_STORAGE_S3_V4AUTH
+          value: "true"
+        {{- end }}
+        - name: REGISTRY_STORAGE_S3_CHUNKSIZE
+          value: {{ .Values.storage.s3.chunkSize | quote }}
+        {{- end }}
         - name: REGISTRY_HTTP_ADDR
           value: ":5000"
         - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
@@ -43,9 +69,13 @@ spec:
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         volumeMounts:
+        {{- if .Values.htpasswd.enabled }}
         - name: htpasswd-volume
           mountPath: /registry
+        {{- end }}
       volumes:
+      {{- if .Values.htpasswd.enabled }}
       - name: htpasswd-volume
         configMap:
           name: {{ template "name" . }}-htpasswd
+      {{- end }}

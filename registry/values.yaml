@@ -19,9 +19,29 @@ ingress:
 service:
   port: 5000
 storage:
-  enabled: false
   delete:
     enabled: false
+  s3:
+    enabled: false
+    accessKey: ""
+    secretKey: ""
+    region: "us-east-1"
+    bucket: ""
+    encrypt: true
+    secure: true
+    v4Auth: true
+    chunkSize: 5242880
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 10Gi
+
+    # If defined, PVC must be created manually before volume will be bound
+    # existingClaim: ""
+
+    # If set to "-", storageClassName: "", which disables dynamic provisioning
+    # If undefined or set to null, defaults to the default storageClass
+    # storageClass: ""
 resources: {}
   # limits:
   #   cpu: 100m
@@ -29,7 +49,3 @@ resources: {}
   # requests:
   #   cpu: 100m
   #   memory: 200Mi
-storage:
-  containerPath: /var/lib/registry
-  delete:
-    enabled: true
