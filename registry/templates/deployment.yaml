@@ -35,6 +35,8 @@ spec:
         {{- if .Values.storage.s3.enabled }}
         - name: REGISTRY_STORAGE
           value: "S3"
+        - name: REGISTRY_STORAGE_S3_ROOTDIRECTORY
+          value: "/var/lib/registry"
         - name: REGISTRY_STORAGE_S3_ACCESSKEY
           value: {{ .Values.storage.s3.accessKey | quote }}
         - name: REGISTRY_STORAGE_S3_SECRETKEY
@@ -57,6 +59,9 @@ spec:
         {{- end }}
         - name: REGISTRY_STORAGE_S3_CHUNKSIZE
           value: "{{ .Values.storage.s3.chunkSize }}"
+        {{- else }}
+        - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
+          value: "/var/lib/registry"
         {{- end }}
         - name: REGISTRY_HTTP_ADDR
           value: ":5000"
