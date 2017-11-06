@@ -32,7 +32,7 @@ storage:
     v4Auth: true
     chunkSize: 5242880
   persistence:
-    enabled: true
+    enabled: false
     accessMode: ReadWriteOnce
     size: 10Gi
 
