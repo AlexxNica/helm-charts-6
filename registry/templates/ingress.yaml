@@ -1,3 +1,4 @@
+{{- if .Values.ingress.enabled }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -7,20 +8,23 @@ metadata:
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
   name: {{ template "name" . }}
-  namespace: {{ .Release.Namespace }}
+  {{- if .Values.ingress.annotations }}
   annotations:
-    kubernetes.io/tls-acme: "true"
-    kubernetes.io/ingress.class: "nginx"
+{{ toYaml .Values.ingress.annotations | indent 4 }}
+  {{- end }}
 spec:
+  {{- if .Values.ingress.tls.enabled }}
   tls:
   - hosts:
-    - {{ .Values.registry.ingress.domainName }}
+    - {{ .Values.ingress.domain }}
     secretName: {{ template "name" . }}-tls-certs
+  {{- end }}
   rules:
-  - host: {{ .Values.registry.ingress.domainName }}
+  - host: {{ .Values.ingress.domain }}
     http:
       paths:
       - path: /
         backend:
           serviceName: {{ template "name" . }}
-          servicePort: 443
+          servicePort: {{ .Values.service.port }}
+{{- end }}

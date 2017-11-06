@@ -8,8 +8,8 @@ metadata:
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
   name: {{ template "name" . }}
-  annotations:
   {{- if .Values.ingress.annotations }}
+  annotations:
 {{ toYaml .Values.ingress.annotations | indent 4 }}
   {{- end }}
 spec:

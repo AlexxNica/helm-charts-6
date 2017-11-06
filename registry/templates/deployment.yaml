@@ -8,7 +8,7 @@ metadata:
     release: {{ .Release.Name }}
   name: {{ template "name" . }}
 spec:
-  replicas: {{ .Values.registry.replicaCount }}
+  replicas: {{ .Values.replicaCount }}
   template:
     metadata:
       labels:
@@ -17,57 +17,35 @@ spec:
     spec:
       containers:
       - name: {{ template "name" . }}
-        image: "{{ .Values.registry.image.repository }}:{{ .Values.registry.image.tag }}"
-        imagePullPolicy: "{{ .Values.registry.image.pullPolicy }}"
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         env:
+        {{- if .Values.htpasswd.enabled }}
         - name: REGISTRY_AUTH
           value: "htpasswd"
         - name: REGISTRY_AUTH_HTPASSWD_REALM
-          value: "{{ .Values.registry.htpasswd.realm }}"
+          value: "{{ .Values.htpasswd.realm }}"
         - name: REGISTRY_AUTH_HTPASSWD_PATH
           value: "/registry/htpasswd"
-        {{- if .Values.registry.storage.delete.enabled }}
+        {{- end }}
+        {{- if .Values.storage.delete.enabled }}
         - name: REGISTRY_STORAGE_DELETE_ENABLED
           value: "true"
         {{- end }}
         - name: REGISTRY_HTTP_ADDR
           value: ":5000"
         - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
-          value: "{{ .Values.registry.storage.containerPath }}"
+          value: "/var/lib/registry"
         - name: REGISTRY_HTTP_SECRET
-          value: "{{ .Values.registry.httpSecret }}"
+          value: "{{ .Values.httpSecret }}"
         ports:
         - containerPort: 5000
         resources:
-{{ toYaml .Values.registry.resources | indent 10 }}
+{{ toYaml .Values.resources | indent 10 }}
         volumeMounts:
         - name: htpasswd-volume
           mountPath: /registry
-        {{- if .Values.registry.storage.hostStorage.enabled }}
-        - name: data-volume
-          mountPath: {{ .Values.registry.storage.containerPath }}
-        {{- end }}
-      {{- if .Values.backup.enabled }}
-      - name: backup
-        image: "{{ .Values.backup.image.repository }}:{{ .Values.backup.image.tag }}"
-        imagePullPolicy: "{{ .Values.backup.image.pullPolicy }}"
-        args: ["backup", "--tarball"]
-        env:
-        {{- range $key, $value := .Values.backup.config }}
-        - name: "{{ $key }}"
-          value: "{{ $value }}"
-        {{- end }}
-        volumeMounts:
-        - name: data-volume
-          mountPath: /data
-          readOnly: true
-      {{- end }}
       volumes:
       - name: htpasswd-volume
         configMap:
           name: {{ template "name" . }}-htpasswd
-      {{- if .Values.registry.storage.hostStorage.enabled }}
-      - name: data-volume
-        hostPath:
-          path: {{ .Values.registry.storage.hostStorage.path }}
-      {{- end }}
