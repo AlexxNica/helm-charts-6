@@ -9,5 +9,5 @@ sources:
 - https://github.com/drone/drone
 maintainers:
 - name: carldanley
-  email: carl.danley@flexshopper.com
+  email: carldanley@gmail.com
 engine: gotpl
