@@ -30,7 +30,7 @@ storage:
     encrypt: true
     secure: true
     v4Auth: true
-    chunkSize: 5242880
+    chunkSize: "5242880"
   persistence:
     enabled: false
     accessMode: ReadWriteOnce
