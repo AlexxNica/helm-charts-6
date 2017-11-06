@@ -69,6 +69,8 @@ spec:
           value: ":5000"
         - name: REGISTRY_HTTP_SECRET
           value: "{{ .Values.httpSecret }}"
+        - name: REGISTRY_HEALTH_STORAGEDRIVER_ENABLED
+          value: "false"
         ports:
         - containerPort: 5000
         resources:
