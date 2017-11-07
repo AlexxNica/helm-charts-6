@@ -43,6 +43,14 @@ agent:
   # requests:
   #   cpu: 10m
   #   memory: 20Mi
+  dockerInDocker:
+    resources: {}
+    # limits:
+    #   cpu: 10m
+    #   memory: 20Mi
+    # requests:
+    #   cpu: 10m
+    #   memory: 20Mi
 ingress:
   enabled: false
   domain: ci.website.com

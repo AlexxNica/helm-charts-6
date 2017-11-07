@@ -38,6 +38,8 @@ spec:
         env:
         - name: DOCKER_DRIVER
           value: overlay
+        resources:
+{{ toYaml .Values.agent.dockerInDocker.resources | indent 10 }}
         securityContext:
           privileged: true
         volumeMounts:
