@@ -25,6 +25,6 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: {{ template "name" . }}
-          servicePort: {{ .Values.service.port }}
+          serviceName: {{ template "name" . }}-web
+          servicePort: {{ .Values.service.web.port }}
 {{- end }}

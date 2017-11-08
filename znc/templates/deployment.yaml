@@ -21,6 +21,7 @@ spec:
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         ports:
         - containerPort: 6697
+        - containerPort: 6698
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         volumeMounts:
