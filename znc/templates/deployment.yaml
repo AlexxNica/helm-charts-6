@@ -24,9 +24,14 @@ spec:
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         volumeMounts:
-        - name: data
-          mountPath: /znc-data
+        - name: config
+          mountPath: /znc-data/configs
+        # - name: data
+        #   mountPath: /znc-data
       volumes:
+      - name: config
+        configMap:
+          name: {{ template "name" . }}
       - name: data
       {{- if .Values.persistence.enabled }}
         persistentVolumeClaim:
