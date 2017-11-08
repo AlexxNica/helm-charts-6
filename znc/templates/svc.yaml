@@ -6,13 +6,14 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  name: {{ template "name" . }}-web
+  name: {{ template "name" . }}
 spec:
   ports:
-  - port: {{ .Values.service.web.port }}
-    targetPort: 6698
+  - port: {{ .Values.service.port }}
+    targetPort: 6697
+    nodePort: {{ .Values.service.port }}
     protocol: TCP
-    name: web
+    name: irc
   selector:
     app: {{ template "name" . }}
     release: {{ .Release.Name }}
