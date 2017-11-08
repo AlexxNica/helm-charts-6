@@ -12,6 +12,9 @@ resources: {}
   # requests:
   #   cpu: 10m
   #   memory: 20Mi
+nodeAffinity:
+  key: kubernetes.io/hostname
+  value: node1
 persistence:
   enabled: false
   accessMode: ReadWriteOnce
