@@ -9,10 +9,12 @@ metadata:
   name: {{ template "name" . }}
 spec:
   ports:
-  - port: {{ .Values.service.port }}
+  - port: {{ .Values.service.nodePort }}
     targetPort: 6697
+    nodePort: {{ .Values.service.nodePort }}
     protocol: TCP
     name: irc
   selector:
     app: {{ template "name" . }}
     release: {{ .Release.Name }}
+  type: NodePort
