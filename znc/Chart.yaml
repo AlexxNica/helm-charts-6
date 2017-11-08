@@ -1,0 +1,11 @@
+name: znc
+version: 1.0.0
+description: znc
+keywords:
+- znc
+sources:
+- https://github.com/carldanley/helm-charts/znc
+maintainers:
+- name: carldanley
+  email: carldanley@gmail.com
+engine: gotpl
