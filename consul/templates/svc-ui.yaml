@@ -13,7 +13,6 @@ spec:
   ports:
   - name: http
     port: {{ .Values.ui.service.port }}
-    targetPort: 8500
   selector:
     app: {{ template "name" . }}
     release: {{ .Release.Name }}

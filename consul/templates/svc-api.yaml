@@ -30,7 +30,6 @@ spec:
   - name: api
     protocol: "TCP"
     port: {{ .Values.api.port }}
-    targetPort: 8300
   - name: consul-dns-tcp
     protocol: "TCP"
     port: {{ .Values.dns.port }}
