@@ -44,7 +44,7 @@ spec:
           containerPort: {{ .Values.serf.wan.udp.port }}
         - name: api
           protocol: "TCP"
-          containerPort: {{ .Values.api.port }}
+          containerPort: 8300
         - name: consul-dns-tcp
           protocol: "TCP"
           containerPort: {{ .Values.dns.port }}
@@ -96,7 +96,7 @@ spec:
 
             for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
                 while true; do
-                    echo "Waiting for ${STATEFULSET_NAME}-${i}.${STATEFULSET_NAME} to come up"
+                    echo "Waiting for ${STATEFULSET_NAME}-${i}.${STATEFULSET_NAME}-api to come up"
                     ping -W 1 -c 1 ${STATEFULSET_NAME}-${i}.${STATEFULSET_NAME}-api.${STATEFULSET_NAMESPACE}.svc > /dev/null && break
                     sleep 1s
                 done
