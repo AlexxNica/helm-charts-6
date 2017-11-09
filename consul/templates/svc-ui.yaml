@@ -1,0 +1,21 @@
+{{- if .Values.ui.service.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ template "name" . }}-ui"
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+    component: "ui"
+spec:
+  ports:
+  - name: http
+    port: {{ .Values.ui.service.port }}
+    targetPort: 8500
+  selector:
+    app: {{ template "name" . }}
+    release: {{ .Release.Name }}
+  type: "{{ .Values.ui.service.type }}"
+{{- end }}

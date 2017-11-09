@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ template "name" . }}-api"
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+    component: "api"
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+spec:
+  ports:
+  - name: rpc
+    protocol: "TCP"
+    port: {{ .Values.rpc.port }}
+  - name: serf-lan-tcp
+    protocol: "TCP"
+    port: {{ .Values.serf.lan.tcp.port }}
+  - name: serf-lan-udp
+    protocol: "UDP"
+    port: {{ .Values.serf.lan.udp.port }}
+  - name: serf-wan-tcp
+    protocol: "TCP"
+    port: {{ .Values.serf.wan.tcp.port }}
+  - name: serf-wan-udp
+    protocol: "UDP"
+    port: {{ .Values.serf.wan.udp.port }}
+  - name: api
+    protocol: "TCP"
+    port: {{ .Values.api.port }}
+    targetPort: 8300
+  - name: consul-dns-tcp
+    protocol: "TCP"
+    port: {{ .Values.dns.port }}
+  - name: consul-dns-udp
+    protocol: "UDP"
+    port: {{ .Values.dns.port }}
+  clusterIP: None
+  selector:
+    app: {{ template "name" . }}
+    release: {{ .Release.Name }}
