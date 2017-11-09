@@ -29,7 +29,7 @@ spec:
     port: {{ .Values.serf.wan.udp.port }}
   - name: api
     protocol: "TCP"
-    port: {{ .Values.api.port }}
+    port: {{ .Values.api.service.port }}
     targetPort: 8300
   - name: consul-dns-tcp
     protocol: "TCP"
