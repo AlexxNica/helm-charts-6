@@ -1,0 +1,25 @@
+{{- if .Values.backup.enabled }}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  name: {{ template "name" . }}-backup
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ template "name" . }}-backup
+        image: "{{ .Values.backup.image.repository }}:{{ .Values.backup.image.tag }}"
+        imagePullPolicy: "{{ .Values.backup.image.pullPolicy }}"
+        command: "backup"
+        args: ["-key=\"{{ .Values.backup.encryptionKey }}\"", "-file=\"s3://{{ .Values.backup.s3.accessKey }}:{{ .Values.backup.s3.secretKey }}@{{ .Values.backup.s3.bucketName }}{{ .Values.backup.s3.path }}?region={{ .Values.backup.s3.region }}\""]
+{{- end }}

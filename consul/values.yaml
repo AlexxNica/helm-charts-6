@@ -27,3 +27,16 @@ resources: {}
  # limits:
  #   cpu: 500m
  #   memory: 512Mi
+backup:
+  enabled: false
+  image:
+    repository: myena/consul-backinator
+    tag: latest
+    pullPolicy: Always
+  encryptionKey: "jqna78gqKlSDLEgFT12wCb1Nexl7"
+  s3:
+    accessKey: ""
+    secretKey: ""
+    region: "us-east-1"
+    bucketName: ""
+    path: "/"
