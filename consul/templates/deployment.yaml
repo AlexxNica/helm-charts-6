@@ -20,6 +20,6 @@ spec:
       - name: {{ template "name" . }}-backup
         image: "{{ .Values.backup.image.repository }}:{{ .Values.backup.image.tag }}"
         imagePullPolicy: "{{ .Values.backup.image.pullPolicy }}"
-        command: "backup"
+        command: ["backup"]
         args: ["-key=\"{{ .Values.backup.encryptionKey }}\"", "-addr={{ template "name" . }}-internal.{{ .Release.Name }}.svc", "-file=\"s3://{{ .Values.backup.s3.accessKey }}:{{ .Values.backup.s3.secretKey }}@{{ .Values.backup.s3.bucketName }}{{ .Values.backup.s3.path }}?region={{ .Values.backup.s3.region }}\""]
 {{- end }}
