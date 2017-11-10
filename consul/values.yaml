@@ -39,4 +39,4 @@ backup:
     secretKey: ""
     region: "us-east-1"
     bucketName: ""
-    path: "/consul.bak"
+    path: "/"
