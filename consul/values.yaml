@@ -3,19 +3,6 @@ image:
   repository: consul
   tag: 0.8.3
   pullPolicy: IfNotPresent
-ui:
-  enabled: false
-  ingress:
-    enabled: false
-    domain: ui.consul.website.com
-    tls:
-      enabled: false
-    annotations: {}
-      # kubernetes.io/tls-acme: "true"
-      # kubernetes.io/ingress.class: "nginx"
-  service:
-    port: 80
-    type: ClusterIP
 api:
   replicas: 3
   dataCenter:
@@ -30,26 +17,9 @@ api:
     annotations: {}
       # kubernetes.io/tls-acme: "true"
       # kubernetes.io/ingress.class: "nginx"
-  service:
-    port: 8500
   storage:
     size: 5Gi
     # class: "gp2"
-rpc:
-  port: 8400
-dns:
-  port: 8600
-serf:
-  lan:
-    tcp:
-      port: 8301
-    udp:
-      port: 8301
-  wan:
-    tcp:
-      port: 8302
-    udp:
-      port: 8302
 resources: {}
  # requests:
  #   cpu: 100m

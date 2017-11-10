@@ -8,7 +8,7 @@ metadata:
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
 spec:
-  serviceName: "{{ template "name" . }}"
+  serviceName: "{{ template "name" . }}-internal"
   replicas: {{ .Values.api.replicas }}
   template:
     metadata:
@@ -29,28 +29,28 @@ spec:
           containerPort: 8500
         - name: rpc
           protocol: "TCP"
-          containerPort: {{ .Values.rpc.port }}
+          containerPort: 8400
         - name: serf-lan-tcp
           protocol: "TCP"
-          containerPort: {{ .Values.serf.lan.tcp.port }}
+          containerPort: 8301
         - name: serf-lan-udp
           protocol: "UDP"
-          containerPort: {{ .Values.serf.lan.udp.port }}
+          containerPort: 8301
         - name: serf-wan-tcp
           protocol: "TCP"
-          containerPort: {{ .Values.serf.wan.tcp.port }}
+          containerPort: 8302
         - name: serf-wan-udp
           protocol: "UDP"
-          containerPort: {{ .Values.serf.wan.udp.port }}
+          containerPort: 8302
         - name: api
           protocol: "TCP"
           containerPort: 8300
         - name: consul-dns-tcp
           protocol: "TCP"
-          containerPort: {{ .Values.dns.port }}
+          containerPort: 8600
         - name: consul-dns-udp
           protocol: "UDP"
-          containerPort: {{ .Values.dns.port }}
+          containerPort: 8600
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         env:
@@ -96,15 +96,15 @@ spec:
 
             for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
                 while true; do
-                    echo "Waiting for ${STATEFULSET_NAME}-${i}.${STATEFULSET_NAME}-api to come up"
-                    ping -W 1 -c 1 ${STATEFULSET_NAME}-${i}.${STATEFULSET_NAME}-api.${STATEFULSET_NAMESPACE}.svc > /dev/null && break
+                    echo "Waiting for ${STATEFULSET_NAME}-${i}.${STATEFULSET_NAME}-internal to come up"
+                    ping -W 1 -c 1 ${STATEFULSET_NAME}-${i}.${STATEFULSET_NAME}-internal.${STATEFULSET_NAMESPACE}.svc > /dev/null && break
                     sleep 1s
                 done
             done
 
             PEERS=""
             for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
-                PEERS="${PEERS}${PEERS:+ } -retry-join $(ping -c 1 ${STATEFULSET_NAME}-${i}.${STATEFULSET_NAME}-api.${STATEFULSET_NAMESPACE}.svc | awk -F'[()]' '/PING/{print $2}')"
+                PEERS="${PEERS}${PEERS:+ } -retry-join $(ping -c 1 ${STATEFULSET_NAME}-${i}.${STATEFULSET_NAME}-internal.${STATEFULSET_NAMESPACE}.svc | awk -F'[()]' '/PING/{print $2}')"
             done
 
             exec /bin/consul agent \
