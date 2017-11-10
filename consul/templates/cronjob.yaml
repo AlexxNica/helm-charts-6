@@ -9,19 +9,32 @@ metadata:
     release: {{ .Release.Name }}
   name: {{ template "name" . }}-backup
 spec:
-  schedule: "*/1 * * * *"
+  successfulJobsHistoryLimit: {{ .Values.backup.historyLimit.successes }}
+  failedJobsHistoryLimit: {{ .Values.backup.historyLimit.failures }}
+  schedule: {{ .Values.backup.schedule | quote }}
   jobTemplate:
     spec:
+      backoffLimit: {{ .Values.backup.backoffLimit }}
       template:
         spec:
           containers:
           - name: "{{ template "name" . }}-backup"
             image: "{{ .Values.backup.image.repository }}:{{ .Values.backup.image.tag }}"
             imagePullPolicy: "{{ .Values.backup.image.pullPolicy }}"
-            args:
-            - backup
-            - -key="{{ .Values.backup.encryptionKey }}"
-            - -addr={{ template "name" . }}-internal.{{ .Release.Name }}.svc:8500
-            - -file="s3://{{ .Values.backup.s3.accessKey }}:{{ .Values.backup.s3.secretKey }}@{{ .Values.backup.s3.bucketName }}{{ .Values.backup.s3.path }}$(uname -n)+$(date +\%Y-\%m-\%d-\%H:\%M).bak?region={{ .Values.backup.s3.region }}"
+            env:
+            - name: AWS_ACCESS_KEY_ID
+              value: {{ .Values.backup.s3.accessKey | quote }}
+            - name: AWS_SECRET_ACCESS_KEY
+              value: {{ .Values.backup.s3.secretKey | quote }}
+            - name: AWS_REGION
+              value: {{ .Values.backup.s3.region | quote }}
+            command:
+            - sh
+            - -c
+            - |
+              /usr/local/bin/consul-backinator backup \
+                -key="{{ .Values.backup.encryptionKey }}" \
+                -addr={{ template "name" . }}-internal.{{ .Release.Name }}.svc:8500 \
+                -file=s3://{{ .Values.backup.s3.bucketName }}/{{ .Values.backup.s3.path }}
           restartPolicy: OnFailure
 {{- end }}
