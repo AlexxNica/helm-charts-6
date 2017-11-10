@@ -67,7 +67,7 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
         - name: DNSPORT
-          value: "{{ .Values.dns.port }}"
+          value: "8600"
         volumeMounts:
         - name: datadir
           mountPath: /var/lib/consul
