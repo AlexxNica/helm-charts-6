@@ -18,11 +18,10 @@ spec:
           - name: "{{ template "name" . }}-backup"
             image: "{{ .Values.backup.image.repository }}:{{ .Values.backup.image.tag }}"
             imagePullPolicy: "{{ .Values.backup.image.pullPolicy }}"
-            command:
-            - |
-              /usr/local/bin/consul-backinator backup \
-                -key="{{ .Values.backup.encryptionKey }}" \
-                -addr="{{ template "name" . }}-internal.{{ .Release.Name }}.svc:8500" \
-                -file="s3://{{ .Values.backup.s3.accessKey }}:{{ .Values.backup.s3.secretKey }}@{{ .Values.backup.s3.bucketName }}{{ .Values.backup.s3.path }}?region={{ .Values.backup.s3.region }}"
+            args:
+            - backup
+            - -key="{{ .Values.backup.encryptionKey }}"
+            - -addr="{{ template "name" . }}-internal.{{ .Release.Name }}.svc:8500"
+            - -file="s3://{{ .Values.backup.s3.accessKey }}:{{ .Values.backup.s3.secretKey }}@{{ .Values.backup.s3.bucketName }}{{ .Values.backup.s3.path }}?region={{ .Values.backup.s3.region }}"
           restartPolicy: OnFailure
 {{- end }}
