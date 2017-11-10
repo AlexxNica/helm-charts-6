@@ -1,6 +1,6 @@
 {{- if .Values.backup.enabled }}
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: batch/v1beta1
+kind: CronJob
 metadata:
   labels:
     app: {{ template "name" . }}
@@ -9,16 +9,20 @@ metadata:
     release: {{ .Release.Name }}
   name: {{ template "name" . }}-backup
 spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: {{ template "name" . }}
-        release: {{ .Release.Name }}
+  schedule: "*/1 * * * *"
+  jobTemplate:
     spec:
-      containers:
-      - name: {{ template "name" . }}-backup
-        image: "{{ .Values.backup.image.repository }}:{{ .Values.backup.image.tag }}"
-        imagePullPolicy: "{{ .Values.backup.image.pullPolicy }}"
-        args: ["backup", "-key=\"{{ .Values.backup.encryptionKey }}\"", "-addr={{ template "name" . }}-internal.{{ .Release.Name }}.svc:8500", "-file=\"s3://{{ .Values.backup.s3.accessKey }}:{{ .Values.backup.s3.secretKey }}@{{ .Values.backup.s3.bucketName }}{{ .Values.backup.s3.path }}?region={{ .Values.backup.s3.region }}\""]
+      template:
+        spec:
+          containers:
+          - name: "{{ template "name" . }}-backup"
+            image: "{{ .Values.backup.image.repository }}:{{ .Values.backup.image.tag }}"
+            imagePullPolicy: "{{ .Values.backup.image.pullPolicy }}"
+            command:
+            - |
+              /usr/local/bin/consul-backinator backup \
+                -key="{{ .Values.backup.encryptionKey }}" \
+                -addr="{{ template "name" . }}-internal.{{ .Release.Name }}.svc:8500" \
+                -file="s3://{{ .Values.backup.s3.accessKey }}:{{ .Values.backup.s3.secretKey }}@{{ .Values.backup.s3.bucketName }}{{ .Values.backup.s3.path }}?region={{ .Values.backup.s3.region }}"
+          restartPolicy: OnFailure
 {{- end }}
