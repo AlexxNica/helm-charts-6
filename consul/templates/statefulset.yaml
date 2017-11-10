@@ -108,7 +108,7 @@ spec:
             done
 
             exec /bin/consul agent \
-            {{- if .Values.ingress.enabled }}
+            {{- if .Values.ui.enabled }}
               -ui \
             {{- end }}
             {{- if .Values.dataCenter.name }}
