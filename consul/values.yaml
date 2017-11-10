@@ -1,37 +1,25 @@
 # nameOverride: some-other-name
+dataCenter:
+  name: "dc1"
+encryptGossip: true
 image:
   repository: consul
   tag: 1.0.0
   pullPolicy: IfNotPresent
-ui:
+ingress:
   enabled: false
-  ingress:
+  domain: consul.domain.tld
+  service:
+    port: 80
+  tls:
     enabled: false
-    domain: ui.consul.website.com
-    service:
-      port: 80
-    tls:
-      enabled: false
-    annotations: {}
-      # kubernetes.io/tls-acme: "true"
-      # kubernetes.io/ingress.class: "nginx"
-api:
-  replicas: 3
-  dataCenter:
-    name: "dc1"
-  gossip:
-    encrypt: true
-  ingress:
-    enabled: false
-    domain: api.consul.website.com
-    tls:
-      enabled: false
-    annotations: {}
-      # kubernetes.io/tls-acme: "true"
-      # kubernetes.io/ingress.class: "nginx"
-  storage:
-    size: 5Gi
-    # class: "gp2"
+  annotations: {}
+    # kubernetes.io/tls-acme: "true"
+    # kubernetes.io/ingress.class: "nginx"
+storage:
+  size: 5Gi
+  # class: "gp2"
+replicas: 3
 resources: {}
  # requests:
  #   cpu: 100m

@@ -9,7 +9,7 @@ metadata:
     release: {{ .Release.Name }}
 spec:
   serviceName: "{{ template "name" . }}-internal"
-  replicas: {{ .Values.api.replicas }}
+  replicas: {{ .Values.replicas }}
   template:
     metadata:
       name: "{{ template "name" . }}"
@@ -55,7 +55,7 @@ spec:
 {{ toYaml .Values.resources | indent 10 }}
         env:
         - name: INITIAL_CLUSTER_SIZE
-          value: {{ .Values.api.replicas | quote }}
+          value: {{ .Values.replicas | quote }}
         - name: STATEFULSET_NAME
           value: "{{ template "name" . }}"
         - name: POD_IP
@@ -87,7 +87,7 @@ spec:
           - |
             IP=$(hostname -i)
 
-            {{- if .Values.api.gossip.encrypt }}
+            {{- if .Values.encryptGossip }}
             if [ -e /etc/consul/secrets/gossip-key ]; then
               echo "{\"encrypt\": \"$(base64 /etc/consul/secrets/gossip-key)\"}" > /etc/consul/encrypt.json
               GOSSIP_KEY="-config-file /etc/consul/encrypt.json"
@@ -108,11 +108,11 @@ spec:
             done
 
             exec /bin/consul agent \
-            {{- if .Values.ui.enabled }}
+            {{- if .Values.ingress.enabled }}
               -ui \
             {{- end }}
-            {{- if .Values.api.dataCenter.name }}
-              -datacenter {{ .Values.api.dataCenter.name }} \
+            {{- if .Values.dataCenter.name }}
+              -datacenter {{ .Values.dataCenter.name }} \
             {{- end }}
               -data-dir=/var/lib/consul \
               -server \
@@ -120,7 +120,7 @@ spec:
               -bind=0.0.0.0 \
               -advertise=${IP} \
               ${PEERS} \
-            {{- if .Values.api.gossip.encrypt }}
+            {{- if .Values.encryptGossip }}
               ${GOSSIP_KEY} \
             {{- end }}
               -client=0.0.0.0 \
@@ -133,8 +133,8 @@ spec:
   - metadata:
       name: datadir
       annotations:
-      {{- if .Values.api.storage.class }}
-        volume.beta.kubernetes.io/storage-class: {{ .Values.api.storage.class | quote }}
+      {{- if .Values.storage.class }}
+        volume.beta.kubernetes.io/storage-class: {{ .Values.storage.class | quote }}
       {{- else }}
         volume.alpha.kubernetes.io/storage-class: default
       {{- end }}
@@ -143,4 +143,4 @@ spec:
       - "ReadWriteOnce"
       resources:
         requests:
-          storage: "{{ .Values.api.storage.size }}"
+          storage: "{{ .Values.storage.size }}"

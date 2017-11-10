@@ -1,4 +1,4 @@
-{{- if .Values.ui.ingress.enabled }}
+{{- if .Values.ingress.enabled }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -8,23 +8,23 @@ metadata:
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
   name: "{{ template "name" . }}-ui"
-  {{- if .Values.ui.ingress.annotations }}
+  {{- if .Values.ingress.annotations }}
   annotations:
-{{ toYaml .Values.ui.ingress.annotations | indent 4 }}
+{{ toYaml .Values.ingress.annotations | indent 4 }}
   {{- end }}
 spec:
-  {{- if .Values.ui.ingress.tls.enabled }}
+  {{- if .Values.ingress.tls.enabled }}
   tls:
   - hosts:
-    - {{ .Values.ui.ingress.domain }}
+    - {{ .Values.ingress.domain }}
     secretName: {{ template "name" . }}-tls-certs
   {{- end }}
   rules:
-  - host: {{ .Values.ui.ingress.domain }}
+  - host: {{ .Values.ingress.domain }}
     http:
       paths:
       - path: /
         backend:
           serviceName: "{{ template "name" . }}-ui"
-          servicePort: {{ .Values.ui.ingress.service.port }}
+          servicePort: {{ .Values.ingress.service.port }}
 {{- end }}

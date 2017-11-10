@@ -1,8 +1,8 @@
-{{- if .Values.ui.enabled }}
+{{- if .Values.ingress.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: "{{ template "name" . }}-ui"
+  name: "{{ template "name" . }}-http"
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
@@ -14,7 +14,7 @@ spec:
   ports:
   - name: http
     protocol: "TCP"
-    port: {{ .Values.ui.ingress.service.port }}
+    port: {{ .Values.ingress.service.port }}
     targetPort: 8500
   selector:
     app: {{ template "name" . }}
