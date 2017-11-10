@@ -34,7 +34,7 @@ spec:
             - |
               /usr/local/bin/consul-backinator backup \
                 -key="{{ .Values.backup.encryptionKey }}" \
-                -addr={{ template "name" . }}-internal.{{ .Release.Name }}.svc:8500 \
+                -addr={{ template "name" . }}-internal.{{ .Release.Namespace }}.svc:8500 \
                 -file=s3://{{ .Values.backup.s3.bucketName }}/{{ .Values.backup.s3.path }}
           restartPolicy: OnFailure
 {{- end }}
