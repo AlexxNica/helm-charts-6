@@ -9,7 +9,7 @@ metadata:
     release: {{ .Release.Name }}
 spec:
   serviceName: "{{ template "name" . }}-internal"
-  replicas: {{ .Values.replicas }}
+  replicas: {{ .Values.replicaCount }}
   template:
     metadata:
       name: "{{ template "name" . }}"
@@ -55,7 +55,7 @@ spec:
 {{ toYaml .Values.resources | indent 10 }}
         env:
         - name: INITIAL_CLUSTER_SIZE
-          value: {{ .Values.replicas | quote }}
+          value: {{ .Values.replicaCount | quote }}
         - name: STATEFULSET_NAME
           value: "{{ template "name" . }}"
         - name: POD_IP

@@ -1,0 +1,11 @@
+name: vault
+version: 1.0
+description: A Helm chart for Vault, a tool for managing secrets
+home: https://github.com/hashicorp/vault
+sources:
+- https://github.com/hashicorp/vault
+- https://github.com/hashicorp/docker-vault
+maintainers:
+- name: carldanley
+  email: carldanley@gmail.com
+engine: gotpl
