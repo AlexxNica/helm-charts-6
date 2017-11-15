@@ -1,0 +1,37 @@
+# nameOverride: "some-other-name"
+replicaCount: 1
+image:
+  repository: "quay.io/tuannvm/goldfish"
+  tag: v0.7.3
+  pullPolicy: IfNotPresent
+ingress:
+  enabled: false
+  domain: ci.website.com
+  tls:
+    enabled: false
+  annotations: {}
+    # kubernetes.io/tls-acme: "true"
+    # kubernetes.io/ingress.class: "nginx"
+service:
+  port: 80
+resources: {}
+# limits:
+#   cpu: 10m
+#   memory: 20Mi
+# requests:
+#   cpu: 10m
+#   memory: 20Mi
+config:
+  listener:
+    tcp:
+      address: "0.0.0.0:8000"
+      tls_cert_file: ""
+      tls_key_file: ""
+      tls_disable: 1
+  vault:
+    address: "http://vault:8200"
+    tls_skip_verify: 1
+    runtime_config: "secret/goldfish"
+    approle_login: "auth/approle/login"
+    approle_id: "goldfish"
+  disable_mlock: 1

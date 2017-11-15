@@ -1,0 +1,13 @@
+name: goldfish
+version: 1.0.0
+description: A Helm chart for Goldfish - Vault UI
+keywords:
+- goldfish
+- vault ui
+sources:
+- https://github.com/carldanley/helm-charts/goldfish
+- https://github.com/Caiyeon/goldfish
+maintainers:
+- name: carldanley
+  email: carldanley@gmail.com
+engine: gotpl

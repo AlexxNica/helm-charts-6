@@ -1,0 +1,48 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "{{ template "name" . }}"
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ template "name" . }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: 8000
+        env:
+        - name: VAULT_ADDRESS
+          value: {{ .Values.config.vault.address }}
+        - name: VAULT_TOKEN
+          value: ""
+        command:
+        - /app/entrypoint.sh
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8000
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8000
+        volumeMounts:
+        - name: goldfish-config
+          mountPath: /app/docker.json
+          subPath: docker.json
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+      volumes:
+      - name: goldfish-config
+        configMap:
+          name: "{{ template "name" . }}-config"
