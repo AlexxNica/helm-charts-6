@@ -9,10 +9,10 @@ metadata:
   name: {{ template "name" . }}
 spec:
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: 8000
-      protocol: TCP
-      name: {{ template "name" . }}
+  - port: {{ .Values.service.port }}
+    targetPort: 8000
+    protocol: TCP
+    name: {{ template "name" . }}
   selector:
     app: {{ template "name" . }}
     release: {{ .Release.Name }}

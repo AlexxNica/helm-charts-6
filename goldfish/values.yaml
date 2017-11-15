@@ -31,7 +31,7 @@ config:
   vault:
     address: "http://vault:8200"
     tls_skip_verify: 1
-    runtime_config: "secret/goldfish"
+    runtime_config: "secrets/goldfish"
     approle_login: "auth/approle/login"
     approle_id: "goldfish"
   disable_mlock: 1

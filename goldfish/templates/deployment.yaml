@@ -28,14 +28,6 @@ spec:
           value: ""
         command:
         - /app/entrypoint.sh
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 8000
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 8000
         volumeMounts:
         - name: goldfish-config
           mountPath: /app/docker.json
