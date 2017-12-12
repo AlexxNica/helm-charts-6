@@ -10,6 +10,7 @@ externalUrl: "http://gitlab.example.com"
 backups:
   enabled: false
   frequency: "0 0 * * *"
+  command: "gitlab-rake gitlab:backup:create"
 
 registry:
   enabled: false
