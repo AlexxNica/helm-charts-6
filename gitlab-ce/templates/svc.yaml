@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "name" . }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+{{- if .Values.service.annotations }}
+  annotations:
+{{ toYaml .Values.service.annotations | indent 4 }}
+{{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+  - name: ssh
+    port: {{ .Values.service.ports.ssh | int }}
+    targetPort: ssh
+  - name: http
+    port: {{ .Values.service.ports.http | int }}
+    targetPort: http
+  - name: https
+    port: {{ .Values.service.ports.https | int }}
+    targetPort: https
+  {{- if .Values.registry.enabled }}
+  - name: registry
+    port: {{ .Values.service.ports.registry | int }}
+    targetPort: registry
+  {{- end }}
+  - name: workhorse
+    port: {{ .Values.service.ports.workhorse | int }}
+    targetPort: workhorse
+  - name: prometheus
+    port: {{ .Values.service.ports.prometheus | int }}
+    targetPort: prometheus
+  - name: node-exporter
+    port: {{ .Values.service.ports.nodeExporter | int }}
+    targetPort: node-exporter
+  selector:
+    app: {{ template "name" . }}

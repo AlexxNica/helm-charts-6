@@ -1,0 +1,101 @@
+image:
+  repository: gitlab/gitlab-ce
+  tag: 10.2.4-ce.0
+  pullPolicy: IfNotPresent
+
+# nameOverride: ""
+# rootPassword: ""
+externalUrl: "http://gitlab.example.com"
+
+backups:
+  enabled: false
+  frequency: "0 0 * * *"
+
+registry:
+  enabled: false
+
+persistence:
+  etc:
+    enabled: true
+    size: 1Gi
+    accessMode: ReadWriteOnce
+    ## If defined, volume.beta.kubernetes.io/storage-class: <storageClass>
+    ## Default: volume.alpha.kubernetes.io/storage-class: default
+    ##
+    # storageClass:
+  data:
+    enabled: true
+    size: 10Gi
+    accessMode: ReadWriteOnce
+    ## If defined, volume.beta.kubernetes.io/storage-class: <storageClass>
+    ## Default: volume.alpha.kubernetes.io/storage-class: default
+    ##
+    # storageClass:
+  registry:
+    enabled: true
+    size: 10Gi
+    accessMode: ReadWriteOnce
+    ## If defined, volume.beta.kubernetes.io/storage-class: <storageClass>
+    ## Default: volume.alpha.kubernetes.io/storage-class: default
+    ##
+    # storageClass:
+
+resources: {}
+# limits:
+#   cpu: 500m
+#   memory: 1Gi
+# requests:
+#   cpu: 1
+#   memory: 2Gi
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts: []
+  # - url: gitlab.example.com
+  #   port: https
+  #   tls:
+  #     enabled: true
+  #     secretName: gitlab-cert
+  # - url: ssh.gitlab.example.com
+  #   port: ssh
+  #   tls:
+  #     enabled: true
+  #     secretName: ssh-gitlab-cert
+  # - url: registry.example.com
+  #   port: https
+  #   tls:
+  #     enabled: true
+  #     secretName: registry-cert
+
+service:
+  type: LoadBalancer
+  annotations: {}
+    # service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0
+  ports:
+    http: 80
+    https: 443
+    ssh: 22
+    workhorse: 8005
+    registry: 8105
+    prometheus: 9090
+    nodeExporter: 9100
+
+postgres:
+  host: postgres.gitlab.svc
+  port: 5432
+  username: gitlab
+  password: gitlab
+  database: gitlab
+
+redis:
+  host: redis.gitlab.svc
+  port: 6379
+  password: gitlab
+
+omnibus:
+  configuration: |
+    unicorn['worker_processes'] = 2;
+    gitlab_rails['trusted_proxies'] = ["10.0.0.0/8","172.16.0.0/12","192.168.0.0/16"];

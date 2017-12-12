@@ -1,0 +1,17 @@
+name: gitlab-ce
+version: 0.1.9
+description: A Helm chart for GitLab
+keywords:
+- git
+- ci
+- deploy
+- issue tracker
+- code review
+- wiki
+sources:
+- https://hub.docker.com/r/gitlab/gitlab-ce/
+icon: https://gitlab.com/uploads/group/avatar/6543/gitlab-logo-square.png
+maintainers:
+- name: carldanley
+  email: carldanley@gmail.com
+engine: gotpl

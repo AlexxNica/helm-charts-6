@@ -1,0 +1,23 @@
+{{- if .Values.persistence.etc.enabled }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "name" . }}-etc
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  annotations:
+    {{- if .Values.persistence.etc.storageClass }}
+    volume.beta.kubernetes.io/storage-class: {{ .Values.persistence.etc.storageClass | quote }}
+    {{- else }}
+    volume.alpha.kubernetes.io/storage-class: default
+    {{- end }}
+spec:
+  accessModes:
+  - {{ .Values.persistence.etc.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.etc.size | quote }}
+{{- end }}
